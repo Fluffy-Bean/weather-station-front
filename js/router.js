@@ -1,17 +1,24 @@
 let routes = {};
 
-function addRoute(route, div) {
-    routes[route] = div;
+function addRoute(route, div, func = null) {
+    routes[route] = {
+        "div": div,
+        "func": func
+    };
 }
 
 function setPage(route) {
     for (let r in routes) {
-        routes[r].style.display = "none";
+        routes[r]['div'].style.display = "none";
     }
     try {
-        routes[route].style.display = "block";
+        routes[route]['div'].style.display = "block";
     } catch (e) {
-        routes["*"].style.display = "block";
+        routes["*"]['div'].style.display = "block";
+    }
+
+    if (routes[route]['func'] !== null) {
+        routes[route]['func']();
     }
 }
 

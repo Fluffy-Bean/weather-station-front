@@ -2,53 +2,43 @@
 <html lang="en">
 <head>
     <title>JS Routing test</title>
-    <script src="router.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="js/router.js"></script>
+    <script src="js/pages.js"></script>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="#/">Index</a></li>
-            <li><a href="#/about">About</a></li>
-            <li><a href="#/contact">Contact</a></li>
+            <li><a href="#/">Weather</a></li>
+            <li><a href="#/devices">Devices</a></li>
         </ul>
     </nav>
-    <main id="index">
+    <main id="weather" style="display: none;">
         <div class="tile">
-            <h1>Index</h1>
-            <p>Blah blah</p>
-        </div>
-        <div class="tile">
-            <h1>Index</h1>
-            <p>Blah blah</p>
-        </div>
-        <div class="tile">
-            <h1>Index</h1>
-            <p>Blah blah</p>
+            <button style="position: absolute; top: 1rem; right: 1rem;" onclick="refreshWeather()">Refresh</button>
+            <h1>Weather</h1>
+            <ul class="weather-list">
+                <li>No Data</li>
+            </ul>
         </div>
     </main>
-    <main id="about" style="display: none;">
+    <main id="devices" style="display: none;">
         <div class="tile">
-            <h1>About</h1>
-            <p>Blah blah</p>
+            <button style="position: absolute; top: 1rem; right: 1rem;" onclick="refreshDevices()">Refresh</button>
+            <h1>Devices</h1>
+            <p>List connected devices here</p>
         </div>
-    </main>
-    <main id="contact" style="display: none;">
-        <div class="tile">
-            <h1>Contact</h1>
-            <p>Blah blah</p>
-        </div>
+        <div class="device-list"></div>
     </main>
     <main id="404" style="display: none;">
         <div class="tile">
             <h1>404</h1>
-            <p>Blah blah</p>
+            <p>You're lost! <a href="#/">Go back</a></p>
         </div>
     </main>
     <script>
-        addRoute('/', document.getElementById('index'));
-        addRoute('/about', document.getElementById('about'));
-        addRoute('/contact', document.getElementById('contact'));
+        addRoute('/', document.getElementById('weather'), refreshWeather);
+        addRoute('/devices', document.getElementById('devices'), refreshDevices);
         addRoute('*', document.getElementById('404'));
     </script>
 </body>
