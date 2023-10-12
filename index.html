@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JS Routing test</title>
+    <script src="router.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#/">Index</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/contact">Contact</a></li>
+        </ul>
+    </nav>
+    <main id="index">
+        <div class="tile">
+            <h1>Index</h1>
+            <p>Blah blah</p>
+        </div>
+        <div class="tile">
+            <h1>Index</h1>
+            <p>Blah blah</p>
+        </div>
+        <div class="tile">
+            <h1>Index</h1>
+            <p>Blah blah</p>
+        </div>
+    </main>
+    <main id="about" style="display: none;">
+        <div class="tile">
+            <h1>About</h1>
+            <p>Blah blah</p>
+        </div>
+    </main>
+    <main id="contact" style="display: none;">
+        <div class="tile">
+            <h1>Contact</h1>
+            <p>Blah blah</p>
+        </div>
+    </main>
+    <main id="404" style="display: none;">
+        <div class="tile">
+            <h1>404</h1>
+            <p>Blah blah</p>
+        </div>
+    </main>
+    <script>
+        addRoute('/', document.getElementById('index'));
+        addRoute('/about', document.getElementById('about'));
+        addRoute('/contact', document.getElementById('contact'));
+        addRoute('*', document.getElementById('404'));
+    </script>
+</body>
+</html>
