@@ -17,7 +17,7 @@ function refreshWeather() {
 
             data["Data"].forEach(function(item) {
                 let li = document.createElement('li');
-                li.innerHTML = item['Temperature'] + 'C | ' + item['Humidity'] + '% | ' + item['Pressure'] + 'hPa';
+                    li.innerHTML = item['Temperature'] + 'C | ' + item['Humidity'] + '% | ' + item['Pressure'] + 'hPa';
                 weatherList.appendChild(li);
             });
         })
@@ -41,13 +41,17 @@ function refreshDevices() {
 
             if (data["Data"] === null) {
                 let div = document.createElement('div');
-                div.className = 'tile';
+                    div.className = 'tile';
 
                 let h2 = document.createElement('h2');
-                h2.style.cssText = 'margin-top: 0; margin-bottom: 0;';
-                h2.innerHTML = 'No devices found';
+                    h2.innerHTML = 'No devices found';
+
+                let p = document.createElement('p');
+                    p.style.cssText = 'margin-top: 0;';
+                    p.innerHTML = 'Check if your nodes are connected to the server';
 
                 div.appendChild(h2);
+                div.appendChild(p);
                 deviceList.appendChild(div);
 
                 return;
@@ -55,14 +59,14 @@ function refreshDevices() {
 
             data['Data'].forEach(function(item) {
                 let div = document.createElement('div');
-                div.className = 'tile';
+                    div.className = 'tile';
 
                 let h2 = document.createElement('h2');
-                h2.style.cssText = 'margin-top: 0;';
-                h2.innerHTML = item['Name'];
+                    h2.innerHTML = item['Name'];
 
                 let p = document.createElement('p');
-                p.innerHTML = item['Model'];
+                    p.style.cssText = 'margin-top: 0;';
+                    p.innerHTML = item['Model'];
 
                 div.appendChild(h2);
                 div.appendChild(p);
@@ -76,3 +80,9 @@ function refreshDevices() {
             deviceTile.classList.remove('tile-loading');
         });
 }
+
+
+setInterval(() => {
+    refreshWeather();
+    refreshDevices();
+}, ServerSyncInterval * 1000 || 60 * 1000);

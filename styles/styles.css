@@ -1,8 +1,9 @@
 :root {
-    --dark: #333;
-    --light: #fff;
-    --gray: #eee;
-    --primary: #ff5900;
+    --dark: #261f1b;
+    --light: #fff6f2;
+    --gray: #d6cecb;
+    --primary: #f2672c;
+    --danger: #e74c3c;
 }
 
 @keyframes slideUp {
@@ -70,31 +71,16 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-    margin: 3rem 0 1.38rem;
+    margin: 0 0 0.5rem 0;
     line-height: 1.3;
 }
-h1 {
-    margin-top: 0;
-    font-size: 2.488rem;
-}
-h2 {
-    font-size: 2.074rem;
-}
-h3 {
-    font-size: 1.728rem;
-}
-h4 {
-    font-size: 1.44rem;
-}
-h5 {
-    font-size: 1.2rem;
-}
-p {
-    margin-bottom: 1rem;
-}
-small, .text_small {
-    font-size: 0.833rem;
-}
+h1 {font-size: 2.488rem;}
+h2 {font-size: 2.074rem;}
+h3 {font-size: 1.728rem;}
+h4 {font-size: 1.44rem;}
+h5 {font-size: 1.2rem;}
+p {margin-bottom: 1rem;}
+small {font-size: 0.833rem;}
 
 nav {
     padding: 1rem;
@@ -177,7 +163,8 @@ input[type=text] {
     border-radius: 2px;
 }
 input[type=text]:focus-visible {
-    background: var(--gray);
+    /*background: var(--gray);*/
+    border-color: var(--primary);
     outline: 0 solid transparent;
 }
 
@@ -189,7 +176,8 @@ button {
     border: 0 solid transparent;
     border-radius: 2px;
 }
-button:hover {
+button:hover, button:focus-visible {
+    outline: 0 solid transparent;
     background: var(--primary);
     color: var(--dark);
 }
