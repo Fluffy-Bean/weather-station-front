@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>JS Routing test</title>
+    <script src="js/toast.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/router.js"></script>
     <script src="js/pages.js"></script>
@@ -17,7 +18,7 @@
     </nav>
     <main id="weather" style="display: none;">
         <div class="tile">
-            <button style="position: absolute; top: 1rem; right: 1rem;" onclick="refreshWeather()">Refresh</button>
+            <button style="float: right;" onclick="refreshWeather()">Refresh</button>
             <h1>Weather</h1>
             <ul class="weather-list">
                 <li>No Data</li>
@@ -26,7 +27,7 @@
     </main>
     <main id="devices" style="display: none;">
         <div class="tile">
-            <button style="position: absolute; top: 1rem; right: 1rem;" onclick="refreshDevices()">Refresh</button>
+            <button style="float: right;" onclick="refreshDevices()">Refresh</button>
             <h1>Devices</h1>
             <p>List connected devices here</p>
         </div>
@@ -39,8 +40,11 @@
         </div>
         <div class="tile">
             <h2 style="margin-top: 0;">Server</h2>
-            <input type="text" placeholder="Server URL" id="server-url">
-            <button onclick="setAddress()">Save</button>
+            <div>
+                <label for="server-url">Server Url</label>
+                <input type="text" placeholder="Server URL" id="server-url">
+            </div>
+            <button onclick="setAddress()" style="float: right; margin-top: 1rem;">Save</button>
         </div>
         <div class="tile">
             <h2 style="margin-top: 0;">Clear Data</h2>
@@ -53,6 +57,7 @@
             <p>You're lost! <a href="#/">Go back</a></p>
         </div>
     </main>
+    <div class="toast-root"></div>
     <script>
         let weather = document.getElementById('weather');
         let devices = document.getElementById('devices');
@@ -61,6 +66,7 @@
         addRoute('/', weather, () => {
             if (ServerAddress === "") {
                 window.location.href = "#/settings";
+                addToast("You need to set the server address before you continue!");
                 return;
             }
 
@@ -72,6 +78,7 @@
         addRoute('/devices', devices, () => {
             if (ServerAddress === "") {
                 window.location.href = "#/settings";
+                addToast("You need to set the server address before you continue!");
                 return;
             }
 
@@ -80,7 +87,7 @@
                 refreshDevices();
             }
         });
-        addRoute('/settings', settings);
+        addRoute('/settings', settings, refreshSettings);
         addRoute('*', document.getElementById('404'));
     </script>
 </body>

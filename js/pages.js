@@ -44,7 +44,7 @@ function refreshDevices() {
                 div.className = 'tile';
 
                 let h2 = document.createElement('h2');
-                h2.style.cssText = 'margin-top: 0;';
+                h2.style.cssText = 'margin-top: 0; margin-bottom: 0;';
                 h2.innerHTML = 'No devices found';
 
                 div.appendChild(h2);
