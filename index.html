@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>JS Routing test</title>
+    <script src="js/settings.js"></script>
     <script src="js/router.js"></script>
     <script src="js/pages.js"></script>
     <link rel="stylesheet" href="styles/styles.css">
@@ -11,6 +12,7 @@
         <ul>
             <li><a href="#/">Weather</a></li>
             <li><a href="#/devices">Devices</a></li>
+            <li><a href="#/settings">Settings</a></li>
         </ul>
     </nav>
     <main id="weather" style="display: none;">
@@ -30,6 +32,21 @@
         </div>
         <div class="device-list"></div>
     </main>
+    <main id="settings" style="display: none;">
+        <div class="tile">
+            <h1>Settings</h1>
+            <p>On load of this tab, update elements to show the localSorage of page</p>
+        </div>
+        <div class="tile">
+            <h2 style="margin-top: 0;">Server</h2>
+            <input type="text" placeholder="Server URL" id="server-url">
+            <button onclick="setAddress()">Save</button>
+        </div>
+        <div class="tile">
+            <h2 style="margin-top: 0;">Clear Data</h2>
+            <p>blah</p>
+        </div>
+    </main>
     <main id="404" style="display: none;">
         <div class="tile">
             <h1>404</h1>
@@ -37,8 +54,33 @@
         </div>
     </main>
     <script>
-        addRoute('/', document.getElementById('weather'), refreshWeather);
-        addRoute('/devices', document.getElementById('devices'), refreshDevices);
+        let weather = document.getElementById('weather');
+        let devices = document.getElementById('devices');
+        let settings = document.getElementById('settings');
+
+        addRoute('/', weather, () => {
+            if (ServerAddress === "") {
+                window.location.href = "#/settings";
+                return;
+            }
+
+            if (weather.dataset.loaded !== "loaded") {
+                weather.dataset.loaded = "loaded";
+                refreshWeather();
+            }
+        });
+        addRoute('/devices', devices, () => {
+            if (ServerAddress === "") {
+                window.location.href = "#/settings";
+                return;
+            }
+
+            if (devices.dataset.loaded !== "loaded") {
+                devices.dataset.loaded = "loaded";
+                refreshDevices();
+            }
+        });
+        addRoute('/settings', settings);
         addRoute('*', document.getElementById('404'));
     </script>
 </body>
