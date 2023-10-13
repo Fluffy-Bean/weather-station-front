@@ -1,7 +1,7 @@
 :root {
     --dark: #261f1b;
-    --light: #fff6f2;
-    --gray: #d6cecb;
+    --light: #fff;
+    --gray: #eee;
     --primary: #f2672c;
     --danger: #e74c3c;
 }
@@ -64,7 +64,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-weight: 400;
+    font-family: 'Rajdhani', sans-serif;
     line-height: 1.75;
     background-color: var(--gray);
     color: var(--dark);
@@ -72,7 +72,7 @@ body {
 
 h1, h2, h3, h4, h5 {
     margin: 0 0 0.5rem 0;
-    line-height: 1.3;
+    line-height: 1;
 }
 h1 {font-size: 2.488rem;}
 h2 {font-size: 2.074rem;}

@@ -11,12 +11,15 @@
     <script src="js/router.js"></script>
     <script src="js/pages.js"></script>
     <link rel="stylesheet" href="styles/styles.css">
+
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=rajdhani@700,300,400,600,1,500&display=swap">
 </head>
 <body>
     <nav>
         <ul>
             <li><a href="#/">Weather</a></li>
             <li><a href="#/devices">Devices</a></li>
+            <li><a href="#/rooms">Rooms</a></li>
             <li><a href="#/settings">Settings</a></li>
         </ul>
     </nav>
@@ -35,16 +38,24 @@
         <div class="tile">
             <button style="float: right;" onclick="refreshDevices()">Refresh</button>
             <h1>Devices</h1>
-            <p style="margin-top: 0;">List connected devices here</p>
+            <p style="margin: 0;">List connected devices here</p>
         </div>
         <div class="device-list"></div>
+    </main>
+    <main id="rooms" style="display: none;">
+        <div class="tile">
+            <h1>Rooms</h1>
+            <p style="margin: 0;">Rooms that the picos live in</p>
+        </div>
+        <div class="rooms-list"></div>
     </main>
     <main id="settings" style="display: none;">
         <div class="tile">
             <h1>Settings</h1>
-            <p style="margin-top: 0;">On load of this tab, update elements to show the localSorage of page</p>
+            <p style="margin: 0;">On load of this tab, update elements to show the localSorage of page</p>
         </div>
         <div class="tile">
+            <button onclick="setAddress()" style="float: right;">Save</button>
             <h2>Server</h2>
             <p style="margin-top: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
 
@@ -57,7 +68,6 @@
                 <label for="server-sync-interval"><span style="color: var(--danger);">*</span> Sync Interval <small>(In seconds)</small></label>
                 <input type="text" placeholder="60s" id="server-sync-interval">
             </div>
-            <button onclick="setAddress()" style="float: right; margin-top: 1rem;">Save</button>
         </div>
     </main>
     <main id="404" style="display: none;">
@@ -70,6 +80,7 @@
     <script>
         let weather = document.getElementById('weather');
         let devices = document.getElementById('devices');
+        let rooms = document.getElementById('rooms');
         let settings = document.getElementById('settings');
 
         addRoute('/', weather, () => {
@@ -96,6 +107,7 @@
                 refreshDevices();
             }
         });
+        addRoute('/rooms', rooms);
         addRoute('/settings', settings, refreshSettings);
         addRoute('*', document.getElementById('404'));
     </script>

@@ -66,8 +66,8 @@ function refreshDevices() {
                     h2.innerHTML = item['Name'];
 
                 let p = document.createElement('p');
-                    p.style.cssText = 'margin-top: 0;';
-                    p.innerHTML = item['Location'] + ' • ' + item['Version'] + ' • ' + item['Address'] + ' • ' + item['LastSeen'];
+                    p.style.cssText = 'margin: 0;';
+                    p.innerHTML = item['Location'] + ' • V' + item['Version'] + ' • IP: ' + item['Address'];
 
                 div.appendChild(h2);
                 div.appendChild(p);
