@@ -1,6 +1,6 @@
 function refreshWeather() {
     let weatherTile = document.getElementById('weather').querySelector('.tile');
-    let weatherList = weatherTile.querySelector('.weather-list');
+    let weatherList = document.getElementById('weather').querySelector('.weather-list');
     weatherTile.classList.add('tile-loading');
 
     fetch(ServerAddress + "/")
@@ -22,6 +22,7 @@ function refreshWeather() {
             });
         })
         .catch(error => {
+            addToast("Error refreshing weather");
             console.log(error);
         })
         .finally(() => {
@@ -74,6 +75,7 @@ function refreshDevices() {
             });
         })
         .catch(error => {
+            addToast("Error refreshing devices");
             console.log(error);
         })
         .finally(() => {
