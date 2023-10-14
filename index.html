@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="styles/styles.css">
 
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=rajdhani@700,300,400,600,1,500&display=swap">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
@@ -28,6 +30,11 @@
             <button style="float: right;" onclick="refreshWeather()">Refresh</button>
             <h1>Weather</h1>
         </div>
+
+        <div class="tile">
+            <canvas id="temperature"></canvas>
+        </div>
+
         <div class="tile">
             <ul class="weather-list">
                 <li>No Data</li>
@@ -52,12 +59,11 @@
     <main id="settings" style="display: none;">
         <div class="tile">
             <h1>Settings</h1>
-            <p style="margin: 0;">On load of this tab, update elements to show the localSorage of page</p>
+            <p style="margin: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
         </div>
         <div class="tile">
             <button onclick="setAddress()" style="float: right;">Save</button>
             <h2>Server</h2>
-            <p style="margin-top: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
 
             <div style="margin-bottom: 1rem;">
                 <label for="server-url">Server Url</label>
@@ -69,6 +75,19 @@
                 <input type="text" placeholder="60s" id="server-sync-interval">
             </div>
         </div>
+        <div class="tile">
+            <button onclick="" style="float: right;">Save</button>
+            <h2>Website</h2>
+
+            <div>
+                <label for="website-animations">Animations</label>
+                <input type="checkbox" id="website-animations" onclick="toggleWebsiteAnimations()">
+            </div>
+            <div>
+                <label for="website-dark-mode">Dark mode</label>
+                <input type="checkbox" id="website-dark-mode" onclick="toggleWebsiteDarkMode()">
+            </div>
+        </div>
     </main>
     <main id="404" style="display: none;">
         <div class="tile">
@@ -78,6 +97,8 @@
     </main>
     <div class="toast-root"></div>
     <script>
+        let nav = document.querySelector('nav');
+
         let weather = document.getElementById('weather');
         let devices = document.getElementById('devices');
         let rooms = document.getElementById('rooms');
@@ -108,8 +129,68 @@
             }
         });
         addRoute('/rooms', rooms);
-        addRoute('/settings', settings, refreshSettings);
+        addRoute('/settings', settings, () => {
+            refreshSettings();
+            refreshWebsiteSettings();
+        });
         addRoute('*', document.getElementById('404'));
+
+        window.onscroll = () => {
+            if (window.scrollY > 0) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+    </script>
+
+    <script>
+        let datapoints = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        const data = {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12'],
+            datasets: [
+                {
+                    label: 'Temperature',
+                    data: datapoints,
+                    borderColor: "rgb(242, 103, 44)",
+                    fill: false,
+                    cubicInterpolationMode: 'monotone',
+                    tension: 0.4
+                },
+            ]
+        };
+
+        let chart = new Chart(document.getElementById('temperature'), {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Temperature'
+                    },
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        },
+                        suggestedMin: -10,
+                        suggestedMax: 200
+                    }
+                }
+            },
+        });
     </script>
 </body>
 </html>

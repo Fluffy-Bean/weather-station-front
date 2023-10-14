@@ -8,17 +8,19 @@ function refreshWeather() {
         .then(data => {
             weatherList.innerHTML = '';
 
-            if (data["Data"] === null) {
+            if (data === null) {
                 let li = document.createElement('li');
                     li.innerHTML = 'No data found';
                 weatherList.appendChild(li);
                 return;
             }
 
-            data["Data"].forEach(function(item) {
+            data.forEach(function(item) {
                 let li = document.createElement('li');
                     li.innerHTML = item['Temperature'] + 'C | ' + item['Humidity'] + '% | ' + item['Pressure'] + 'hPa';
                 weatherList.appendChild(li);
+
+                datapoints.push(item['Temperature']);
             });
         })
         .catch(error => {
@@ -40,7 +42,7 @@ function refreshDevices() {
         .then(data => {
             deviceList.innerHTML = '';
 
-            if (data["Data"] === null) {
+            if (data === null) {
                 let div = document.createElement('div');
                     div.className = 'tile';
 
@@ -58,7 +60,7 @@ function refreshDevices() {
                 return;
             }
 
-            data['Data'].forEach(function(item) {
+            data.forEach(function(item) {
                 let div = document.createElement('div');
                     div.className = 'tile';
 
