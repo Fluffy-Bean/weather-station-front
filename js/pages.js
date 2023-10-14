@@ -50,7 +50,7 @@ function refreshDevices() {
                     h2.innerHTML = 'No devices found';
 
                 let p = document.createElement('p');
-                    p.style.cssText = 'margin-top: 0;';
+                    p.style.cssText = 'margin: 0;';
                     p.innerHTML = 'Check if your nodes are connected to the server';
 
                 div.appendChild(h2);
@@ -61,19 +61,45 @@ function refreshDevices() {
             }
 
             data.forEach(function(item) {
+                let config = JSON.parse(item['Config']);
+
+                let details = document.createElement('details');
+                    details.style.cssText = 'padding: 0;';
+                    details.className = 'tile';
+                    details.dataset.id = item['Id'];
+
+                let summary = document.createElement('summary');
                 let div = document.createElement('div');
-                    div.className = 'tile';
+
+                let editButton = document.createElement('button');
+                    editButton.onclick = () => { alert('Options not implemented yet!'); };
+                    editButton.style.cssText = 'margin-right: 0.5rem;';
+                    editButton.className = 'button-danger';
+                    editButton.innerHTML = 'Edit';
+
+                let deleteButton = document.createElement('button');
+                    deleteButton.onclick = () => { alert('Options not implemented yet!'); };
+                    deleteButton.className = 'button-danger';
+                    deleteButton.innerHTML = 'Yeet';
 
                 let h2 = document.createElement('h2');
+                    h2.style.cssText = 'margin: 0; user-select: none;';
                     h2.innerHTML = item['Name'];
 
                 let p = document.createElement('p');
-                    p.style.cssText = 'margin: 0;';
-                    p.innerHTML = item['Location'] + ' • V' + item['Version'] + ' • IP: ' + item['Address'];
+                    p.style.cssText = 'margin: 0; user-select: none;';
+                    p.innerHTML = item['Location'] + ' • V' + config['version'];
 
-                div.appendChild(h2);
-                div.appendChild(p);
-                deviceList.appendChild(div);
+                summary.appendChild(h2);
+                summary.appendChild(p);
+
+                div.appendChild(editButton);
+                div.appendChild(deleteButton);
+
+                details.appendChild(summary);
+                details.appendChild(div);
+
+                deviceList.appendChild(details);
             });
         })
         .catch(error => {
@@ -86,7 +112,7 @@ function refreshDevices() {
 }
 
 
-setInterval(() => {
-    refreshWeather();
-    refreshDevices();
-}, ServerSyncInterval * 1000 || 60 * 1000);
+// setInterval(() => {
+//     refreshWeather();
+//     refreshDevices();
+// }, ServerSyncInterval * 1000 || 60 * 1000);

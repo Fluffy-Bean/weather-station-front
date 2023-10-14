@@ -153,6 +153,29 @@ main {
     text-decoration: underline;
 }
 
+details > summary {
+    padding: 1.5rem;
+    cursor: pointer;
+    list-style: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+details > summary::-webkit-details-marker {
+    display: none;
+}
+details > div {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: var(--gray);
+}
+/*details[open] > summary {*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*}*/
+
+
 label {
     font-size: 1rem;
 }
@@ -174,16 +197,22 @@ input[type=text]:focus-visible {
 button {
     padding: 0.4rem 0.9rem;
     font-size: 0.9rem;
-    background: var(--dark);
+    background: var(--primary);
     color: var(--light);
     border: 0 solid var(--dark);
     border-radius: 2px;
+    cursor: pointer;
+}
+button.button-danger {
+    background: var(--danger);
+    color: var(--light);
 }
 button:hover, button:focus-visible {
     outline: 0 solid transparent;
-    background: var(--primary);
-    color: var(--dark);
+    background: var(--dark);
+    color: var(--light);
 }
+
 
 .toast-root {
     width: 100%;
