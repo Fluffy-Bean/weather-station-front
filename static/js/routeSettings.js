@@ -1,6 +1,6 @@
 const addressRegex = new RegExp('^(https?:\\/\\/)(localhost|(?:[a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+\\.[a-z]{2,}|(?:[0-9]{1,3}\\.){3}[0-9]{1,3})(?::[0-9]{1,5})?$');
 
-let ServerAddress = localStorage.getItem('serverAddress') || "http://localhost:8080";
+let ServerAddress = localStorage.getItem('serverAddress') || "/";
 let ServerSyncInterval = localStorage.getItem('serverSyncInterval') || 60;
 function setAddress() {
     setServerAddress();

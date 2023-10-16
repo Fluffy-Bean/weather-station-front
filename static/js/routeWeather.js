@@ -3,7 +3,7 @@ function refreshWeather() {
     let weatherList = document.getElementById('weather').querySelector('.weather-list');
     weatherTile.classList.add('tile-loading');
 
-    fetch(ServerAddress + "/")
+    fetch(ServerAddress + "weather")
         .then(response => response.json())
         .then(data => {
             weatherList.innerHTML = '';
