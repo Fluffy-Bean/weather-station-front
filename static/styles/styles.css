@@ -91,10 +91,10 @@ nav {
     padding: 1rem;
     position: sticky;
     top: 0;
-    z-index: 999;
     background-color: var(--dark);
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.1s linear;
+    z-index: 999;
 }
 nav.scrolled {
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
@@ -131,18 +131,14 @@ main {
 .tile {
     margin: 0 auto 1rem;
     padding: 1.5rem;
-
     position: relative;
     overflow: hidden;
-
     width: 100%;
     max-width: 1000px;
-
     background-color: var(--light);
     border: 1px solid var(--gray);
     border-radius: 7px;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-
     animation: slideUp 0.5s cubic-bezier(0.86, 0, 0.07, 1);
 }
 .tile-loading::after {
@@ -171,11 +167,9 @@ details > summary {
     padding: 1.5rem;
     cursor: pointer;
     list-style: none;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     transition: background 0.1s ease-in-out;
 }
 details > summary::-webkit-details-marker {
@@ -192,9 +186,7 @@ details > div {
 }
 
 
-label {
-    font-size: 1rem;
-}
+label { font-size: 1rem; }
 
 input[type=text] {
     padding: 0.5rem 1rem;
@@ -234,48 +226,36 @@ button:focus-visible {
     outline: 4px solid var(--primary-transparent);
 }
 
-
 .toast-root {
     width: 100%;
     max-width: 500px;
-
     position: fixed;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-
     display: flex;
     flex-direction: column;
-
     z-index: 999;
 }
 .toast {
     margin: 0 0.5rem 0.5rem 0.5rem;
     padding: 0.5rem 1rem;
-
     min-height: 2.5rem;
-
     overflow: hidden;
     position: relative;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     text-align: center;
-
     background-color: var(--dark);
     color: var(--light);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 7px;
     box-shadow: 0 0.25rem 0.5rem rgba(255, 255, 255, 0.1);
-
     animation: toastShow 0.3s ease-in-out;
     transition: opacity 0.2s ease-in-out;
 }
-.toast:hover {
-    cursor: pointer;
-}
+.toast:hover { cursor: pointer; }
 .toast::after {
     content: "";
     position: absolute;
@@ -286,6 +266,4 @@ button:focus-visible {
     background-color: var(--primary);
     animation: toastTimer 5s linear forwards;
 }
-.toast-hide {
-    opacity: 0;
-}
+.toast-hide { opacity: 0; }
