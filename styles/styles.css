@@ -4,8 +4,9 @@
     --dark: rgb(38, 31, 27);
     --light: rgb(255, 255, 255);
     --gray: rgb(215, 215, 215);
-    --primary: rgb(242, 103, 44);
-    --danger: rgb(231, 76, 60);
+    --primary: rgb(133, 162, 113);
+    --primary-transparent: rgb(133, 162, 113, 0.3);
+    --danger: rgb(38, 31, 27);
 }
 
 @keyframes slideUp {
@@ -102,19 +103,24 @@ nav > ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
     list-style: none;
     margin: 0;
     padding: 0;
 }
 nav > ul > li > a {
+    padding: 0.5rem 1rem;
     text-decoration: none;
-    color: var(--light);
     font-weight: bold;
+    color: var(--light);
+    border-radius: 4px;
     transition: color 0.2s ease-in-out;
 }
 nav > ul > li > a:hover {
     color: var(--primary);
+}
+nav > ul > li > a:focus-visible {
+    text-decoration: none;
+    outline: 4px solid var(--primary-transparent);
 }
 
 main {
@@ -156,6 +162,10 @@ main {
 .tile a:hover {
     text-decoration: underline;
 }
+.tile a:focus-visible {
+    text-decoration: none;
+    outline: 4px solid var(--primary-transparent);
+}
 
 details > summary {
     padding: 1.5rem;
@@ -166,9 +176,15 @@ details > summary {
     justify-content: space-between;
     align-items: center;
 
+    transition: background 0.1s ease-in-out;
 }
 details > summary::-webkit-details-marker {
     display: none;
+}
+details > summary:hover,
+details > summary:focus-visible {
+    background: var(--primary-transparent);
+    outline: 0 solid transparent;
 }
 details > div {
     padding: 1.5rem;
@@ -188,10 +204,11 @@ input[type=text] {
     color: var(--dark);
     border: 1px solid var(--gray);
     border-radius: 4px;
+    outline: 0 solid var(--primary-transparent);
+    transition: outline 0.1s ease-in-out;
 }
 input[type=text]:focus-visible {
-    border-color: var(--primary);
-    outline: 0 solid transparent;
+    outline: 4px solid var(--primary-transparent);
 }
 
 button {
@@ -203,15 +220,18 @@ button {
     border: 0 solid var(--dark);
     border-radius: 1.1rem;
     cursor: pointer;
+    transition: outline 0.1s ease-in-out;
 }
 button.button-danger {
     background: var(--danger);
     color: var(--light);
 }
-button:hover, button:focus-visible {
-    outline: 0 solid transparent;
+button:hover {
     background: var(--dark);
     color: var(--light);
+}
+button:focus-visible {
+    outline: 4px solid var(--primary-transparent);
 }
 
 
