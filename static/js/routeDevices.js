@@ -137,7 +137,7 @@ function updateDevice(id) {
         method: 'PUT',
         body: form,
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
         .then(response => response.json())
@@ -146,12 +146,13 @@ function updateDevice(id) {
                 addToast("Device updated");
                 refreshDevices();
             } else {
-                addToast("Error updating device");
+                console.log(response);
+                addToast("Error updating device, check console for info");
             }
         })
         .catch(error => {
-            addToast("Error updating device");
             console.log(error);
+            addToast("Error updating device, check console for info");
         })
         .finally(() => {
             deviceTile.classList.remove('tile-loading');
@@ -171,12 +172,13 @@ function deleteDevice(id) {
                 addToast("Device deleted");
                 refreshDevices();
             } else {
-                addToast("Error deleting device");
+                console.log(response);
+                addToast("Error deleting device, check console for info");
             }
         })
         .catch(error => {
-            addToast("Error deleting device");
             console.log(error);
+            addToast("Error deleting device, check console for info");
         })
         .finally(() => {
             deviceTile.classList.remove('tile-loading');
