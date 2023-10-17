@@ -6,6 +6,20 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 
+    <script>
+        function getSetting(key, defaultValue) {
+            let value = localStorage.getItem(key);
+            if (value === null) {
+                return defaultValue;
+            }
+            return value;
+        }
+
+        // no toucha
+        const version = "0.0.1";
+        let syncInterval = getSetting('server-sync-interval', 60);
+    </script>
+
     <script src="static/js/toast.js"></script>
     <script src="static/js/router.js"></script>
     <script src="static/js/routeWeather.js"></script>
@@ -55,11 +69,11 @@
         <div class="tile">
             <h1>Settings</h1>
             <p style="margin: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
+            <p style="margin: 0;">Website V<span id="website-version">0.0.0</span> • Server V<span id="server-version">0.0.0</span></p>
         </div>
         <div class="tile">
-            <button onclick="setAddress()" style="float: right;">Save</button>
+            <button onclick="setServerSettings()" style="float: right;">Save</button>
             <h2>Server</h2>
-
             <div>
                 <label for="server-sync-interval"><span style="color: var(--danger);">*</span> Sync Interval <small>(In seconds)</small></label>
                 <input type="text" placeholder="60s" id="server-sync-interval">
@@ -74,8 +88,8 @@
                 <input type="checkbox" id="website-animations" onclick="toggleWebsiteAnimations()">
             </div>
             <div>
-                <label for="website-dark-mode">Dark mode</label>
-                <input type="checkbox" id="website-dark-mode" onclick="toggleWebsiteDarkMode()">
+                <label for="website-darkmode">Dark mode</label>
+                <input type="checkbox" id="website-darkmode" onclick="toggleWebsiteDarkMode()">
             </div>
         </div>
     </main>
@@ -109,7 +123,6 @@
         addRoute('/rooms', rooms);
         addRoute('/settings', settings, () => {
             refreshSettings();
-            refreshWebsiteSettings();
         });
         addRoute('*', document.getElementById('404'));
 

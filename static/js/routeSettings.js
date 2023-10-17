@@ -1,73 +1,62 @@
-let ServerSyncInterval = localStorage.getItem('serverSyncInterval') || 60;
-function setAddress() {
-    setServerSyncInterval();
-}
-
+// Server Settings
 function setServerSyncInterval() {
-    let sync = document.getElementById('server-sync-interval').value
+    let sync = document.getElementById('server-sync-interval');
 
-    if (isNaN(sync)) {
-        addToast("Invalid Sync Interval!");
+    if (isNaN(sync.value)) {
+        addToast("Enter a number!");
         return;
     }
 
-    if (sync === ServerSyncInterval) {
-        return;
-    }
-
-    localStorage.setItem('ServerSyncInterval', sync);
-    ServerSyncInterval = sync;
+    syncInterval = sync.value;
+    localStorage.setItem('server-sync-interval', syncInterval);
 
     addToast("Server Sync Interval updated!");
 }
-
-function refreshSettings() {
-    document.getElementById('server-sync-interval').value = ServerSyncInterval;
+function setServerSettings() {
+    setServerSyncInterval();
 }
 
+// Website Settings
+function toggleWebsiteDarkMode() {
+    let darkmode = document.getElementById('website-darkmode');
 
-function setWebsiteSettings() {
-    if (localStorage.getItem('WebsiteDarkmode') === 'yuh') {
+    if (darkmode.checked) {
         document.body.classList.add('darkmode');
+        localStorage.setItem('website-darkmode', 'yuh');
     } else {
         document.body.classList.remove('darkmode');
+        localStorage.removeItem('website-darkmode');  // nuh
     }
+}
+function toggleWebsiteAnimations() {
+    let animations = document.getElementById('website-animations');
 
-    if (localStorage.getItem('WebsiteAnimations') === 'yuh') {
+    if (animations.checked) {
         document.body.classList.add('animations');
+        localStorage.setItem('website-animations', 'yuh');
     } else {
         document.body.classList.remove('animations');
+        localStorage.removeItem('website-animations');  // nuh
     }
 }
 
-function toggleWebsiteDarkMode() {
-    let darkmode = document.getElementById('website-darkmode').checked;
+// Used by router to update buttons and inputs to match settings
+function refreshSettings() {
+    let websiteVersion = document.getElementById('website-version');
+    let serverVersion = document.getElementById('server-version');
+    let sync = document.getElementById('server-sync-interval');
+    let darkmode = localStorage.getItem('website-darkmode');
+    let animations = localStorage.getItem('website-animations');
 
-    if (darkmode) {
-        localStorage.setItem('WebsiteDarkmode', 'yuh');
-    } else {
-        localStorage.removeItem('WebsiteDarkmode');  // nuh
+    websiteVersion.innerText = version;
+    serverVersion.innerText = "0.0.0";  // TODO: get server version
+
+    sync.value = syncInterval;
+
+    if (darkmode === "yuh") {
+        document.getElementById('website-darkmode').checked = true;
     }
-
-    setWebsiteSettings();
-}
-
-function toggleWebsiteAnimations() {
-    let animations = document.getElementById('website-animations').checked;
-
-    if (animations) {
-        localStorage.setItem('WebsiteAnimations', 'yuh');
-    } else {
-        localStorage.removeItem('WebsiteAnimations');  // nuh
+    if (animations === "yuh") {
+        document.getElementById('website-animations').checked = true;
     }
-
-    setWebsiteSettings();
-}
-
-function refreshWebsiteSettings() {
-    let darkmode = localStorage.getItem('WebsiteDarkmode');
-    let animations = localStorage.getItem('WebsiteAnimations');
-
-    document.getElementById('website-darkmode').checked = darkmode === 'yuh';
-    document.getElementById('website-animations').checked = animations === 'yuh';
 }
