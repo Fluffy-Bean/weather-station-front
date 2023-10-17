@@ -6,7 +6,7 @@
     --gray: rgb(215, 215, 215);
     --primary: rgb(133, 162, 113);
     --primary-transparent: rgb(133, 162, 113, 0.3);
-    --danger: rgb(38, 31, 27);
+    --danger: rgb(213, 110, 110);
 }
 
 @keyframes slideUp {

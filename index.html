@@ -13,8 +13,6 @@
     <script src="static/js/routeSettings.js"></script>
 
     <link rel="stylesheet" href="static/styles/styles.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
@@ -30,10 +28,6 @@
             <button style="float: right;" onclick="refreshWeather()">Refresh</button>
             <h1>Weather</h1>
             <p style="margin: 0;">Weather and Temperature data</p>
-        </div>
-
-        <div class="tile">
-            <canvas id="temperature"></canvas>
         </div>
 
         <div class="tile">
@@ -65,11 +59,6 @@
         <div class="tile">
             <button onclick="setAddress()" style="float: right;">Save</button>
             <h2>Server</h2>
-
-            <div style="margin-bottom: 1rem;">
-                <label for="server-url">Server Url</label>
-                <input type="text" placeholder="http://localhost:8080" id="server-url">
-            </div>
 
             <div>
                 <label for="server-sync-interval"><span style="color: var(--danger);">*</span> Sync Interval <small>(In seconds)</small></label>
@@ -106,24 +95,12 @@
         let settings = document.getElementById('settings');
 
         addRoute('/', weather, () => {
-            if (ServerAddress === "") {
-                window.location.href = "#/settings";
-                addToast("You need to set the server address before you continue!");
-                return;
-            }
-
             if (weather.dataset.loaded !== "loaded") {
                 weather.dataset.loaded = "loaded";
                 refreshWeather();
             }
         });
         addRoute('/devices', devices, () => {
-            if (ServerAddress === "") {
-                window.location.href = "#/settings";
-                addToast("You need to set the server address before you continue!");
-                return;
-            }
-
             if (devices.dataset.loaded !== "loaded") {
                 devices.dataset.loaded = "loaded";
                 refreshDevices();
@@ -143,55 +120,6 @@
                 nav.classList.remove('scrolled');
             }
         }
-    </script>
-
-    <script>
-        let datapoints = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-        const data = {
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9','10','11','12'],
-            datasets: [
-                {
-                    label: 'Temperature',
-                    data: datapoints,
-                    borderColor: "rgb(242, 103, 44)",
-                    fill: false,
-                    cubicInterpolationMode: 'monotone',
-                    tension: 0.4
-                },
-            ]
-        };
-
-        let chart = new Chart(document.getElementById('temperature'), {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Temperature'
-                    },
-                },
-                scales: {
-                    x: {
-                        display: true,
-                        title: {
-                            display: true
-                        }
-                    },
-                    y: {
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Value'
-                        },
-                        suggestedMin: -10,
-                        suggestedMax: 200
-                    }
-                }
-            },
-        });
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ function refreshDevices() {
     let deviceList = document.querySelector('.device-list');
     deviceTile.classList.add('tile-loading');
 
-    fetch(ServerAddress + "devices")
+    fetch("/devices")
         .then(response => response.json())
         .then(data => {
             deviceList.innerHTML = '';
@@ -133,7 +133,7 @@ function updateDevice(id) {
     form.append('name', name);
     form.append('location', location);
 
-    fetch(ServerAddress + "devices", {
+    fetch("/devices", {
         method: 'PUT',
         body: form,
         headers: {
@@ -162,7 +162,7 @@ function deleteDevice(id) {
     let deviceTile = document.getElementById('devices').querySelector('.tile');
     deviceTile.classList.add('tile-loading');
 
-    fetch(ServerAddress + "devices?id=" + id, {
+    fetch("/devices?id=" + id, {
         method: 'DELETE',
     })
         .then(response => response.json())
