@@ -19,8 +19,6 @@ function refreshWeather() {
                 let li = document.createElement('li');
                     li.innerText = item['temperature'] + 'C | ' + item['humidity'] + '% | ' + item['pressure'] + 'hPa';
                 weatherList.appendChild(li);
-
-                datapoints.push(item['Temperature']);
             });
         })
         .catch(error => {
