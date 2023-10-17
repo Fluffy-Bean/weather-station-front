@@ -10,14 +10,14 @@ function refreshDevices() {
 
             if (data === null) {
                 let div = document.createElement('div');
-                div.className = 'tile';
+                    div.className = 'tile';
 
                 let h2 = document.createElement('h2');
-                h2.innerText = 'No devices found';
+                    h2.innerText = 'No devices found';
 
                 let p = document.createElement('p');
-                p.style.cssText = 'margin: 0;';
-                p.innerText = 'Check if your nodes are connected to the server';
+                    p.style.cssText = 'margin: 0;';
+                    p.innerText = 'Check if your nodes are connected to the server';
 
                 div.appendChild(h2);
                 div.appendChild(p);
@@ -37,7 +37,7 @@ function refreshDevices() {
 
                 let summary = document.createElement('summary');
 
-                let h2 = document.createElement('h2');
+                    let h2 = document.createElement('h2');
                     h2.style.cssText = 'margin: 0; user-select: none;';
                     h2.innerText = item['name'];
 
@@ -128,6 +128,20 @@ function updateDevice(id) {
     let name = device.querySelector('#edit-name-' + id).value;
     let location = device.querySelector('#edit-location-' + id).value;
 
+    let formData = {
+        'id': id,
+        'name': name,
+        'location': location
+    }
+
+    let formBody = [];
+    for (let key in formData) {
+        let encodedKey = encodeURIComponent(key);
+        let encodedValue = encodeURIComponent(formData[key]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     let form = new FormData();
     form.append('id', id);
     form.append('name', name);
@@ -135,14 +149,13 @@ function updateDevice(id) {
 
     fetch("/devices", {
         method: 'PUT',
-        body: form,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-        }
+        },
+        body: formBody,
     })
-        .then(response => response.json())
         .then(response => {
-            if (response.status === 200) {
+            if (response.ok) {
                 addToast("Device updated");
                 refreshDevices();
             } else {
@@ -166,9 +179,8 @@ function deleteDevice(id) {
     fetch("/devices?id=" + id, {
         method: 'DELETE',
     })
-        .then(response => response.json())
         .then(response => {
-            if (response.status === 200) {
+            if (response.ok) {
                 addToast("Device deleted");
                 refreshDevices();
             } else {
