@@ -42,14 +42,14 @@ function toggleWebsiteAnimations() {
 
 // Used by router to update buttons and inputs to match settings
 function refreshSettings() {
-    let websiteVersion = document.getElementById('website-version');
-    let serverVersion = document.getElementById('server-version');
+    let website = document.getElementById('website-version');
+    let server = document.getElementById('server-version');
     let sync = document.getElementById('server-sync-interval');
     let darkmode = localStorage.getItem('website-darkmode');
     let animations = localStorage.getItem('website-animations');
 
-    websiteVersion.innerText = version;
-    serverVersion.innerText = "0.0.0";  // TODO: get server version
+    website.innerText = version;
+    server.innerText = serverVersion;
 
     sync.value = syncInterval;
 

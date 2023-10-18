@@ -26,9 +26,7 @@ function refreshDevices() {
                 return;
             }
 
-            data.forEach(function(item) {
-                let config = JSON.parse(item['config']);
-
+            data.forEach(item => {
                 let details = document.createElement('details');
                     details.style.cssText = 'padding: 0;';
                     details.className = 'tile';
@@ -43,13 +41,13 @@ function refreshDevices() {
 
                 let p = document.createElement('p');
                     p.style.cssText = 'margin: 0; user-select: none;';
-                    p.innerText = item['location'] + ' • V' + config['version'];
+                    p.innerText = item['location'] + ' • V' + item['config']['version'];
 
                 let div = document.createElement('div');
 
                 let deviceInfo = document.createElement('p');
                     deviceInfo.style.cssText = 'margin-top: 0; user-select: none;';
-                    deviceInfo.innerText = [config['address'], config['version']].join(' • ')
+                    deviceInfo.innerText = [item['config']['address'], item['config']['version']].join(' • ')
 
                 let nameDiv = document.createElement('div');
                     nameDiv.style.cssText = 'margin-bottom: 1rem;';
@@ -92,7 +90,7 @@ function refreshDevices() {
                 summary.appendChild(h2);
                 summary.appendChild(p);
 
-                // div.appendChild(deviceInfo);
+                div.appendChild(deviceInfo);
 
                 nameDiv.appendChild(editNameLabel);
                 nameDiv.appendChild(editName);
