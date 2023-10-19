@@ -88,9 +88,9 @@ p {margin-bottom: 1rem;}
 small {font-size: 0.833rem;}
 
 nav {
-    padding: 1rem;
     position: sticky;
     top: 0;
+    height: 4rem;
     background-color: var(--dark);
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.1s linear;
@@ -100,6 +100,7 @@ nav.scrolled {
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 nav > ul {
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,9 +109,10 @@ nav > ul {
     padding: 0;
 }
 nav > ul > li > a {
-    padding: 0.5rem 1rem;
+    padding: 1rem 1.5rem;
     text-decoration: none;
     font-weight: bold;
+    font-size: 1.2rem;
     color: var(--light);
     border-radius: 4px;
     transition: color 0.2s ease-in-out;
@@ -185,7 +187,6 @@ details > div {
     border-top: 1px solid var(--gray);
 }
 
-
 label { font-size: 1rem; }
 
 input[type=text] {
@@ -200,6 +201,22 @@ input[type=text] {
     transition: outline 0.1s ease-in-out;
 }
 input[type=text]:focus-visible {
+    outline: 4px solid var(--primary-transparent);
+}
+
+select {
+    padding: 0.5rem 1rem;
+    width: 100%;
+    font-size: 0.9rem;
+    background: var(--light);
+    color: var(--dark);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    outline: 0 solid var(--primary-transparent);
+    transition: outline 0.1s ease-in-out;
+    cursor: pointer;
+}
+select:focus-visible {
     outline: 4px solid var(--primary-transparent);
 }
 
@@ -267,3 +284,24 @@ button:focus-visible {
     animation: toastTimer 5s linear forwards;
 }
 .toast-hide { opacity: 0; }
+
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 2rem;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        top: unset;
+        left: 0;
+    }
+    nav > ul {
+        justify-content: space-around;
+    }
+    main {
+        padding-bottom: 4rem;
+    }
+    .toast-root {
+        bottom: 4rem;
+    }
+}

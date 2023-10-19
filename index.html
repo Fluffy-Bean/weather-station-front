@@ -6,43 +6,35 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
 
-    <script>
-        function getSetting(key, defaultValue) {
-            let value = localStorage.getItem(key);
-            if (value === null) {
-                return defaultValue;
-            }
-            return value;
-        }
+    <link rel="stylesheet" href="static/styles/styles.css">
 
-        // no toucha
-        const version = "0.0.1";
-        let serverVersion = "0.0.1";
-        let syncInterval = getSetting('server-sync-interval', 60);
+    <script>
+        const version = "0.0.2";
+        let serverVersion = "0.0.0";
 
         fetch("/health")
             .then(response => response.json())
             .then(data => serverVersion = data.version)
             .catch(error => console.log(error));
     </script>
-
     <script src="static/js/toast.js"></script>
     <script src="static/js/router.js"></script>
     <script src="static/js/routeWeather.js"></script>
     <script src="static/js/routeDevices.js"></script>
+    <script src="static/js/routeRooms.js"></script>
     <script src="static/js/routeSettings.js"></script>
-
-    <link rel="stylesheet" href="static/styles/styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="#/">Weather</a></li>
-            <li><a href="#/devices">Devices</a></li>
-<!--            <li><a href="#/rooms">Rooms</a></li>-->
-            <li><a href="#/settings">Settings</a></li>
+            <li><a href="#/"><i class="ph ph-cloud-sun"></i></a></li>
+            <li><a href="#/devices"><i class="ph ph-hard-drives"></i></a></li>
+            <li><a href="#/rooms"><i class="ph ph-house-line"></i></a></li>
+            <li><a href="#/settings"><i class="ph ph-gear-six"></i></a></li>
         </ul>
     </nav>
+
     <main id="weather" style="display: none;">
         <div class="tile">
             <button style="float: right;" onclick="refreshWeather()">Refresh</button>
@@ -56,6 +48,7 @@
             </ul>
         </div>
     </main>
+
     <main id="devices" style="display: none;">
         <div class="tile">
             <button style="float: right;" onclick="refreshDevices()">Refresh</button>
@@ -64,26 +57,29 @@
         </div>
         <div class="device-list"></div>
     </main>
+
     <main id="rooms" style="display: none;">
         <div class="tile">
+            <button style="float: right;" onclick="refreshRooms()">Refresh</button>
             <h1>Rooms</h1>
             <p style="margin: 0;">Rooms that the connected devices live in</p>
         </div>
-        <div class="rooms-list"></div>
+        <div class="tile" id="add-room">
+            <button onclick="addRoom();" style="float: right;">Add Room</button>
+            <h2>Add Room</h2>
+            <div>
+                <label for="room-name">Name</label>
+                <input type="text" placeholder="Living Room" id="room-name">
+            </div>
+        </div>
+        <div class="room-list"></div>
     </main>
+
     <main id="settings" style="display: none;">
         <div class="tile">
             <h1>Settings</h1>
             <p style="margin: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
             <p style="margin: 0;">Website V<span id="website-version">0.0.0</span> • Server V<span id="server-version">0.0.0</span></p>
-        </div>
-        <div class="tile">
-            <button onclick="setServerSettings()" style="float: right;">Save</button>
-            <h2>Server</h2>
-            <div>
-                <label for="server-sync-interval"><span style="color: var(--danger);">*</span> Sync Interval <small>(In seconds)</small></label>
-                <input type="text" placeholder="60s" id="server-sync-interval">
-            </div>
         </div>
         <div class="tile">
             <button onclick="" style="float: right;">Save</button>
@@ -99,38 +95,30 @@
             </div>
         </div>
     </main>
+
     <main id="404" style="display: none;">
         <div class="tile">
             <h1>404</h1>
             <p style="margin: 0;">You're lost! <a href="#/">Go back</a></p>
         </div>
     </main>
+
     <div class="toast-root"></div>
+
     <script>
-        let nav = document.querySelector('nav');
+        const weather = document.getElementById('weather');
+        const devices = document.getElementById('devices');
+        const rooms = document.getElementById('rooms');
+        const settings = document.getElementById('settings');
+        const notFound = document.getElementById('404');
 
-        let weather = document.getElementById('weather');
-        let devices = document.getElementById('devices');
-        let rooms = document.getElementById('rooms');
-        let settings = document.getElementById('settings');
+        addRoute('/', weather, refreshWeather);
+        addRoute('/devices', devices, refreshDevices);
+        addRoute('/rooms', rooms, refreshRooms)
+        addRoute('/settings', settings, refreshSettings);
+        addRoute('*', notFound);
 
-        addRoute('/', weather, () => {
-            if (weather.dataset.loaded !== "loaded") {
-                weather.dataset.loaded = "loaded";
-                refreshWeather();
-            }
-        });
-        addRoute('/devices', devices, () => {
-            if (devices.dataset.loaded !== "loaded") {
-                devices.dataset.loaded = "loaded";
-                refreshDevices();
-            }
-        });
-        addRoute('/rooms', rooms);
-        addRoute('/settings', settings, () => {
-            refreshSettings();
-        });
-        addRoute('*', document.getElementById('404'));
+        const nav = document.querySelector('nav');
 
         window.onscroll = () => {
             if (window.scrollY > 0) {

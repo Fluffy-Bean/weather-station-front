@@ -24,12 +24,13 @@ function setPage(route) {
 
 function router() {
     let request = location.hash;
+    request = request.replace("#", "");
 
     if (request === "") {
-            request = "#/";
+        request = "/";
     }
 
-    setPage(request.replace("#", ""));
+    setPage(request);
 }
 
 window.addEventListener("hashchange", router);

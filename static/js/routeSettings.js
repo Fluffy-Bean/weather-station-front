@@ -1,21 +1,3 @@
-// Server Settings
-function setServerSyncInterval() {
-    let sync = document.getElementById('server-sync-interval');
-
-    if (isNaN(sync.value)) {
-        addToast("Enter a number!");
-        return;
-    }
-
-    syncInterval = sync.value;
-    localStorage.setItem('server-sync-interval', syncInterval);
-
-    addToast("Server Sync Interval updated!");
-}
-function setServerSettings() {
-    setServerSyncInterval();
-}
-
 // Website Settings
 function toggleWebsiteDarkMode() {
     let darkmode = document.getElementById('website-darkmode');
@@ -44,14 +26,11 @@ function toggleWebsiteAnimations() {
 function refreshSettings() {
     let website = document.getElementById('website-version');
     let server = document.getElementById('server-version');
-    let sync = document.getElementById('server-sync-interval');
     let darkmode = localStorage.getItem('website-darkmode');
     let animations = localStorage.getItem('website-animations');
 
     website.innerText = version;
     server.innerText = serverVersion;
-
-    sync.value = syncInterval;
 
     if (darkmode === "yuh") {
         document.getElementById('website-darkmode').checked = true;

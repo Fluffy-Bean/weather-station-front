@@ -26,65 +26,73 @@ function refreshDevices() {
                 return;
             }
 
-            data.forEach(item => {
+            let devices = data['devices'];
+            let rooms = data['rooms'];
+
+            let roomList = document.createElement('select');
+            rooms.forEach(room => {
+                let option = document.createElement('option');
+                option.value = room['id']
+                option.innerText = room['name'];
+                roomList.appendChild(option);
+            });
+
+            devices.forEach(device => {
                 let details = document.createElement('details');
-                    details.style.cssText = 'padding: 0;';
-                    details.className = 'tile';
-                    details.dataset.device_id = item['id'];
-                    details.open = true;
+                details.style.cssText = 'padding: 0;';
+                details.className = 'tile';
+                details.dataset.device_id = device['id'];
 
                 let summary = document.createElement('summary');
 
-                    let h2 = document.createElement('h2');
-                    h2.style.cssText = 'margin: 0; user-select: none;';
-                    h2.innerText = item['name'];
+                let h2 = document.createElement('h2');
+                h2.style.cssText = 'margin: 0; user-select: none;';
+                h2.innerText = device['name'];
 
                 let p = document.createElement('p');
-                    p.style.cssText = 'margin: 0; user-select: none;';
-                    p.innerText = item['location'] + ' • V' + item['config']['version'];
+                p.style.cssText = 'margin: 0; user-select: none;';
+                p.innerText = device['room'] + ' • V' + device['config']['version'];
 
                 let div = document.createElement('div');
 
                 let deviceInfo = document.createElement('p');
-                    deviceInfo.style.cssText = 'margin-top: 0; user-select: none;';
-                    deviceInfo.innerText = [item['config']['address'], item['config']['version']].join(' • ')
+                deviceInfo.style.cssText = 'margin-top: 0; user-select: none;';
+                deviceInfo.innerText = [device['config']['address'], device['config']['version']].join(' • ')
 
                 let nameDiv = document.createElement('div');
-                    nameDiv.style.cssText = 'margin-bottom: 1rem;';
+                nameDiv.style.cssText = 'margin-bottom: 1rem;';
 
                 let editNameLabel = document.createElement('label');
-                    editNameLabel.htmlFor = 'edit-name-' + item['id'];
-                    editNameLabel.innerText = 'Device name';
+                editNameLabel.htmlFor = 'edit-name-' + device['id'];
+                editNameLabel.innerText = 'Device name';
 
                 let editName = document.createElement('input');
-                    editName.id = 'edit-name-' + item['id'];
-                    editName.type = 'text';
-                    editName.placeholder = 'Name';
-                    editName.value = item['name'];
-                    editName.style.cssText = 'margin-right: 0.5rem;';
+                editName.id = 'edit-name-' + device['id'];
+                editName.type = 'text';
+                editName.placeholder = 'Name';
+                editName.value = device['name'];
+                editName.style.cssText = 'margin-right: 0.5rem;';
 
-                let locationDiv = document.createElement('div');
-                    locationDiv.style.cssText = 'margin-bottom: 1rem;';
+                let roomDiv = document.createElement('div');
+                roomDiv.style.cssText = 'margin-bottom: 1rem;';
 
-                let editLocationLabel = document.createElement('label');
-                    editLocationLabel.htmlFor = 'edit-location-' + item['id'];
-                    editLocationLabel.innerText = 'Device location';
+                let editRoomLabel = document.createElement('label');
+                editRoomLabel.htmlFor = 'edit-room-' + device['id'];
+                editRoomLabel.innerText = 'Device room';
 
-                let editLocation = document.createElement('input');
-                    editLocation.id = 'edit-location-' + item['id'];
-                    editLocation.type = 'text';
-                    editLocation.placeholder = 'Location';
-                    editLocation.value = item['location'];
+                let editRoom = roomList.cloneNode(true);
+                editRoom.id = 'edit-room-' + device['id'];
+                editRoom.querySelector('[value="' + device['room_id'] + '"]').selected = true;
 
                 let saveButton = document.createElement('button');
-                    saveButton.onclick = () => { updateDevice(item['id']); };
-                    saveButton.style.cssText = 'float: right;';
-                    saveButton.innerText = 'Save';
+                saveButton.onclick = () => { updateDevice(device['id']); };
+                saveButton.style.cssText = 'float: right;';
+                saveButton.innerText = 'Save';
 
                 let deleteButton = document.createElement('button');
-                    deleteButton.onclick = () => { deleteDevice(item['id']); };
-                    deleteButton.className = 'button-danger';
-                    deleteButton.innerText = 'Yeet';
+                deleteButton.onclick = () => { deleteDevice(device['id']); };
+                deleteButton.className = 'button-danger';
+                deleteButton.innerText = 'Yeet';
 
 
                 summary.appendChild(h2);
@@ -96,9 +104,9 @@ function refreshDevices() {
                 nameDiv.appendChild(editName);
                 div.appendChild(nameDiv);
 
-                locationDiv.appendChild(editLocationLabel);
-                locationDiv.appendChild(editLocation);
-                div.appendChild(locationDiv);
+                roomDiv.appendChild(editRoomLabel);
+                roomDiv.appendChild(editRoom);
+                div.appendChild(roomDiv);
 
                 div.appendChild(deleteButton);
                 div.appendChild(saveButton);
@@ -124,12 +132,12 @@ function updateDevice(id) {
 
     let device = document.querySelector('.device-list').querySelector('[data-device_id="' + id + '"]');
     let name = device.querySelector('#edit-name-' + id).value;
-    let location = device.querySelector('#edit-location-' + id).value;
+    let room = device.querySelector('#edit-room-' + id).value;
 
     let formData = {
         'id': id,
         'name': name,
-        'location': location
+        'room': room
     }
 
     let formBody = [];
@@ -140,15 +148,10 @@ function updateDevice(id) {
     }
     formBody = formBody.join("&");
 
-    let form = new FormData();
-    form.append('id', id);
-    form.append('name', name);
-    form.append('location', location);
-
     fetch("/devices", {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         },
         body: formBody,
     })
