@@ -5,8 +5,11 @@
 
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="description" content="Weather Station"/>
 
+    <link rel="icon" type="image/x-icon" href="static/images/logo.svg"/>
     <link rel="stylesheet" href="static/styles/styles.css">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');</style>
 
     <script>
         const version = "0.0.2";
@@ -17,6 +20,7 @@
             .then(data => serverVersion = data.version)
             .catch(error => console.log(error));
     </script>
+
     <script src="static/js/toast.js"></script>
     <script src="static/js/router.js"></script>
     <script src="static/js/routeWeather.js"></script>
@@ -77,6 +81,7 @@
 
     <main id="settings" style="display: none;">
         <div class="tile">
+            <img src="static/images/logo.svg" alt="Logo" style="width: 7rem; height: 7rem; float: right; margin: auto;">
             <h1>Settings</h1>
             <p style="margin: 0;">Settings marked with <span style="color: var(--danger);">*</span> may need a page refresh to function properly</p>
             <p style="margin: 0;">Website V<span id="website-version">0.0.0</span> • Server V<span id="server-version">0.0.0</span></p>

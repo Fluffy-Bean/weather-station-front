@@ -9,35 +9,28 @@ function refreshDevices() {
             deviceList.innerHTML = '';
 
             if (data === null) {
-                let div = document.createElement('div');
-                    div.className = 'tile';
-
-                let h2 = document.createElement('h2');
-                    h2.innerText = 'No devices found';
-
-                let p = document.createElement('p');
-                    p.style.cssText = 'margin: 0;';
-                    p.innerText = 'Check if your nodes are connected to the server';
-
-                div.appendChild(h2);
-                div.appendChild(p);
-                deviceList.appendChild(div);
-
+                deviceList.innerHTML = `
+                <div class="tile">
+                    <h2>No devices found</h2>
+                    <p style="margin: 0;">Check if your nodes are connected to the server</p>
+                </div>
+                `;
                 return;
             }
 
-            let devices = data['devices'];
-            let rooms = data['rooms'];
-
-            let roomList = document.createElement('select');
-            rooms.forEach(room => {
+            let rooms = {};
+            let roomSelect = document.createElement('select');
+            data['rooms'].forEach(room => {
                 let option = document.createElement('option');
                 option.value = room['id']
                 option.innerText = room['name'];
-                roomList.appendChild(option);
+
+                roomSelect.appendChild(option);
+
+                rooms[room['id']] = room['name'];
             });
 
-            devices.forEach(device => {
+            data['devices'].forEach(device => {
                 let details = document.createElement('details');
                 details.style.cssText = 'padding: 0;';
                 details.className = 'tile';
@@ -51,13 +44,20 @@ function refreshDevices() {
 
                 let p = document.createElement('p');
                 p.style.cssText = 'margin: 0; user-select: none;';
-                p.innerText = device['room'] + ' • V' + device['config']['version'];
+                if (device['room_id'] !== null) {
+                    try {
+                        p.innerText = rooms[device['room_id']];
+                    } catch (error) {
+                        console.log(error);
+                        p.innerText = 'Unknown room';
+                    }
+                }
 
                 let div = document.createElement('div');
 
                 let deviceInfo = document.createElement('p');
                 deviceInfo.style.cssText = 'margin-top: 0; user-select: none;';
-                deviceInfo.innerText = [device['config']['address'], device['config']['version']].join(' • ')
+                deviceInfo.innerText = device['config']['address'] + " • V" + device['config']['version']
 
                 let nameDiv = document.createElement('div');
                 nameDiv.style.cssText = 'margin-bottom: 1rem;';
@@ -80,9 +80,9 @@ function refreshDevices() {
                 editRoomLabel.htmlFor = 'edit-room-' + device['id'];
                 editRoomLabel.innerText = 'Device room';
 
-                let editRoom = roomList.cloneNode(true);
+                let editRoom = roomSelect.cloneNode(true);
                 editRoom.id = 'edit-room-' + device['id'];
-                editRoom.querySelector('[value="' + device['room_id'] + '"]').selected = true;
+                editRoom.value = device['room_id'];
 
                 let saveButton = document.createElement('button');
                 saveButton.onclick = () => { updateDevice(device['id']); };
